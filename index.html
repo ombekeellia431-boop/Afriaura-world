@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AFRIAURA OS | Global Sovereign System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --gold: #d4af37; --neon: #00ffcc; --bg: #000; --card: #0a0a0a; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; margin: 0; padding: 0; }
+        body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
+
+        /* Header Premium */
+        header {
+            height: 110px; padding: 0 25px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid #1a1a1a; background: #050505; z-index: 1000; position: relative;
+        }
+        .identity { display: flex; align-items: center; gap: 15px; }
+        .logo-aura { width: 55px; height: 55px; background: var(--gold); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(212,175,55,0.4); }
+        .logo-aura i { color: black; font-size: 1.8em; }
+        .wallet { background: var(--gold); padding: 12px 25px; border-radius: 50px; color: black; font-weight: 900; font-size: 1.1em; }
+
+        /* Grille des Systèmes */
+        #main-grid {
+            height: calc(100vh - 210px); overflow-y: auto; padding: 20px;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+            scrollbar-width: none;
+        }
+        .node {
+            background: var(--card); border: 2px solid #1a1a1a; border-radius: 40px;
+            padding: 40px 10px; text-align: center; transition: 0.4s;
+        }
+        .node i { font-size: 3.5em; margin-bottom: 15px; display: block; color: var(--gold); }
+        .node:active { transform: scale(0.95); border-color: var(--neon); }
+        .node.wide { grid-column: span 2; border: 1.5px solid var(--gold); }
+
+        /* Overlay Système */
+        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2000; display: none; flex-direction: column; }
+        .ov-header { height: 90px; display: flex; align-items: center; padding: 0 25px; border-bottom: 1px solid #222; }
+
+        /* Navigation Dock */
+        nav {
+            position: fixed; bottom: 20px; left: 5%; width: 90%; height: 90px;
+            background: rgba(15,15,15,0.95); border-radius: 45px; border: 1px solid #222;
+            display: flex; justify-content: space-around; align-items: center; z-index: 1001;
+        }
+        .nav-btn { color: #555; font-size: 2em; cursor: pointer; }
+        .nav-btn.active { color: var(--gold); }
+        .cam-btn { width: 90px; height: 90px; background: var(--gold); border-radius: 50%; margin-top: -60px; display: flex; align-items: center; justify-content: center; color: black; border: 8px solid var(--bg); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="identity">
+        <div class="logo-aura"><i class="fas fa-bolt"></i></div>
+        <div>
+            <b style="font-size: 1.3em; letter-spacing: 3px;">AFRIAURA OS</b><br>
+            <small style="color: var(--neon);">ELLIA FLOW | EMPIRE GLOBAL</small>
+        </div>
+    </div>
+    <div class="wallet">₿ 240,500,000</div>
+</header>
+
+<div id="main-grid">
+    <div class="node" onclick="Router('FORGE')"><i class="fas fa-compact-disc"></i><b>FORGE IA</b><br><small>BandLab + Flow</small></div>
+    <div class="node" onclick="Router('MARKET')"><i class="fas fa-shopping-cart"></i><b>MARCHÉ B2B</b><br><small>Alibaba Elite</small></div>
+    <div class="node" onclick="Router('SYNERGY')"><i class="fas fa-layer-group"></i><b>SYNERGIE</b><br><small>Collab Gabon-Chine</small></div>
+    <div class="node" onclick="Router('ARENA')"><i class="fas fa-trophy"></i><b>ARENA</b><br><small>Games & Culture</small></div>
+    <div class="node wide" onclick="Router('TRANSLATE')"><i class="fas fa-microphone-lines"></i><b>TRADUCTEUR IA</b><br><small>Polyglot Live (Ma Voix)</small></div>
+    <div class="node wide" onclick="Router('CITOYEN')"><i class="fas fa-id-card-alt" style="color:var(--neon)"></i><b>CITOYENNE VALIDE</b><br><small>Bio-Registration N4</small></div>
+</div>
+
+<div id="overlay">
+    <div class="ov-header">
+        <i class="fas fa-arrow-left fa-2x" onclick="Manager.close()" style="color: var(--gold);"></i>
+        <h2 id="ov-title" style="margin-left: 25px; text-transform: uppercase; letter-spacing: 4px;">MODULE</h2>
+    </div>
+    <div id="ov-content" style="flex:1; overflow-y:auto; padding:30px;"></div>
+</div>
+
+<nav>
+    <i class="fas fa-home nav-btn active" onclick="Manager.close()"></i>
+    <i class="fas fa-chart-line nav-btn" onclick="Router('PLAN')"></i>
+    <div class="cam-btn" onclick="Router('VISION')"><i class="fas fa-camera fa-3x"></i></div>
+    <i class="fas fa-box-open nav-btn" onclick="Router('MARKET')"></i>
+    <i class="fas fa-user-shield nav-btn" onclick="Router('CITOYEN')"></i>
+</nav>
+
+<script src="afriaura-engine.js"></script>
+<script src="afriaura-expansion.js"></script>
+<script>
+    const Manager = {
+        open: (t) => { document.getElementById('overlay').style.display = 'flex'; document.getElementById('ov-title').innerText = t; },
+        close: () => { document.getElementById('overlay').style.display = 'none'; Engine.kill(); },
+        render: (html) => { document.getElementById('ov-content').innerHTML = html; }
+    };
+    function Router(path) {
+        if(path === 'FORGE') Engine.initForge();
+        if(path === 'VISION') Engine.initVision();
+        if(path === 'TRANSLATE') Engine.initTranslate();
+        if(path === 'MARKET') Expansion.initMarket();
+        if(path === 'SYNERGY') Expansion.initSynergy();
+        if(path === 'ARENA') Expansion.initArena();
+        if(path === 'CITOYEN') Expansion.initCitoyen();
+        if(path === 'PLAN') Expansion.initPlan();
+    }
+</script>
+</body>
+</html>
